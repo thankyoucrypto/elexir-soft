@@ -55,18 +55,18 @@ def get_eth_price_in_usdt():
 
 # Функция проверки газа
 def normal_gwei_price():
-    # Получаем текущую рекомендуемую цену газа
-    gas_price = web3.eth.gas_price
-    # Конвертируем цену газа из Wei в Gwei
-    gas_price_gwei = web3.from_wei(gas_price, 'gwei')
+    while True:
+        # Получаем текущую рекомендуемую цену газа
+        gas_price = web3.eth.gas_price
+        # Конвертируем цену газа из Wei в Gwei
+        gas_price_gwei = web3.from_wei(gas_price, 'gwei')
 
-    if (gas_price_gwei > GAS_PRICE_MIN) and (gas_price_gwei < GAS_PRICE_MAX):
-        print(f'Газ в норме: {gas_price_gwei} [от {GAS_PRICE_MIN} до {GAS_PRICE_MAX}]')
-        return True
-    else:
-        print(f'Газ не в норме: {gas_price_gwei} [от {GAS_PRICE_MIN} до {GAS_PRICE_MAX}]\nЖдем 10 сек\n')
-        time.sleep(10)
-        return normal_gwei_price()
+        if GAS_PRICE_MIN < gas_price_gwei < GAS_PRICE_MAX:
+            print(f'Газ в норме: {gas_price_gwei} [от {GAS_PRICE_MIN} до {GAS_PRICE_MAX}]')
+            return True
+        else:
+            print(f'Газ не в норме: {gas_price_gwei} [от {GAS_PRICE_MIN} до {GAS_PRICE_MAX}]\nЖдем 10 сек\n')
+            time.sleep(10)
 
 
 # Функция для добавления ликвидности
